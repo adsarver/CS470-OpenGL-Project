@@ -148,7 +148,6 @@ def draw_garage(open_state):
 def draw_house(x, y, z, front_door_open, back_door_open, color, garage=False, garage_open=False):
     glPushMatrix()
     glTranslatef(x, y, z)
-
     draw_front_wall(color)
     draw_back_wall(color)
     draw_side_wall(color, left=True)
