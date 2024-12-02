@@ -4,8 +4,8 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import pywavefront
 
-
-person_scene = pywavefront.Wavefront('PyWaveObjs\\person.obj', collect_faces=True)
+open_trunk = False
+person_scene = pywavefront.Wavefront('PyWaveObjs\\Person.obj', collect_faces=True)
 
 person_scene_box = (person_scene.vertices[0], person_scene.vertices[0])
 for vertex in person_scene.vertices:
@@ -93,8 +93,9 @@ def Car():
     glPushMatrix()
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
+    glColor3f(1, 0, 1)
     for mesh in Car_scene.mesh_list:
-        glBegin(GL_LINES)
+        glBegin(GL_QUADS)
         for face in mesh.faces:
             for vertex_i in face:
                 glVertex3f(*Car_scene.vertices[vertex_i])
@@ -115,16 +116,110 @@ def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
-    for mesh in Trunk_scene.mesh_list:
-        glBegin(GL_QUADS)
-        for face in mesh.faces:
-            for vertex_i in face:
-                glVertex3f(*Trunk_scene.vertices[vertex_i])
-        glEnd()
+    if open_trunk:
+        glRotatef(75, 0, 0, 1)
+        glTranslatef(0.3, -0.7, 0)
+        for mesh in Trunk_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*Trunk_scene.vertices[vertex_i])
+            glEnd()
+    else:
+        for mesh in Trunk_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*Trunk_scene.vertices[vertex_i])
+            glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
+''' //Another Car Option
+def car():
+    glMatrixMode(GL_MODELVIEW)
+    glColor3f(1, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex3f(1, 0, 2.5)
+    glVertex3f(1, 2, 2.5)
+    glVertex3f(1, 2, 1.5)
+    glVertex3f(1, 4, 1)
+    glVertex3f(1, 4, -1)
+    glVertex3f(1, 2, -1.5)
+    glVertex3f(1, 2, -2.5)
+    glVertex3f(1, 0, -2.5)
+    glEnd()
+
+    glColor3f(1, 1, 0)
+    glBegin(GL_POLYGON)
+    glVertex3f(-1, 0, 2.5)
+    glVertex3f(-1, 2, 2.5)
+    glVertex3f(-1, 2, 1.5)
+    glVertex3f(-1, 4, 1)
+    glVertex3f(-1, 4, -1)
+    glVertex3f(-1, 2, -1.5)
+    glVertex3f(-1, 2, -2.5)
+    glVertex3f(-1, 0, -2.5)
+    glEnd()
+
+    glColor3f(1, 0, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 0, 2.5)
+    glVertex3f(-1, 2, 2.5)
+    glVertex3f(1, 2, 2.5)
+    glVertex3f(1, 0, 2.5)
+    glEnd()
+
+    glColor3f(0, 1, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 2, 2.5)
+    glVertex3f(-1, 2, 1.5)
+    glVertex3f(1, 2, 1.5)
+    glVertex3f(1, 2, 2.5)
+    glEnd()
+
+    glColor3f(0, 1, 0)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 2, 1.5)
+    glVertex3f(-1, 4, 1)
+    glVertex3f(1, 4, 1)
+    glVertex3f(1, 2, 1.5)
+    glEnd()
+
+    glColor3f(0, 0, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 4, 1)
+    glVertex3f(-1, 4, -1)
+    glVertex3f(1, 4, -1)
+    glVertex3f(1, 4, 1)
+    glEnd()
+
+    glColor3f(1, 1, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 2, -1.5)
+    glVertex3f(-1, 4, -1)
+    glVertex3f(1, 4, -1)
+    glVertex3f(1, 2, -1.5)
+    glEnd()
+
+    glColor3f(1, 0, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 0, -2.5)
+    glVertex3f(-1, 2, -2.5)
+    glVertex3f(1, 2, -2.5)
+    glVertex3f(1, 0, -2.5)
+    glEnd()
+
+def trunk():
+    glColor3f(0, 1, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(-1, 2, -2.5)
+    glVertex3f(-1, 2, -1.5)
+    glVertex3f(1, 2, -1.5)
+    glVertex3f(1, 2, -2.5)
+    glEnd()'''
 
 def main():
+        global open_trunk
         pygame.init()
         display = (1080, 720)
         pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -147,31 +242,30 @@ def main():
                     if event.key == pygame.K_DOWN:
                         glTranslatef(0,-1,0)
                     if event.key == pygame.K_a:
-                        glTranslatef(0.5, 0, 0)
-                        glPushMatrix()
-                        Person()
-                        glTranslatef(0.5, 0 , 0)
-
-                        glPopMatrix()
+                        glRotatef(5, 1, 0, 0)
                     if event.key == pygame.K_d:
                         glRotatef(5, -1, 0, 0)
                     if event.key == pygame.K_w:
-                        glRotatef(45, 0, 1, 0)
+                        glRotatef(5, 0, 1, 0)
                     if event.key == pygame.K_s:
-                        glRotatef(45, 0, -1, 0)
+                        glRotatef(5, 0, -1, 0)
                     if event.key == pygame.K_q:
                         glRotatef(5, 0, 0, 1)
                     if event.key == pygame.K_e:
                         glRotatef(5, 0, 0, -1)
+                    if event.key == pygame.K_t:
+                        open_trunk = not open_trunk
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+            #glPolygonMode(GL_FRONT_AND_BACK, GL_QUADS)
 
             Person()
             arm()
             cat()
             Car()
             Trunk()
+            #car()
+            #trunk()
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
             pygame.display.flip()
