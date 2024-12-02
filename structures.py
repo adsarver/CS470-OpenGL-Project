@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import numpy as np
 
 front_doors_open = [False, False, False, False]  
 back_doors_open = [False, False, False, False]   
@@ -164,19 +165,74 @@ def draw_house(x, y, z, front_door_open, back_door_open, color, garage=False, ga
 
     glPopMatrix()
 
+def draw_cylinder(radius, height, slices):
+    glBegin(GL_TRIANGLE_STRIP)
+    for i in range(slices + 1):
+        angle = 2 * np.pi * i / slices
+        x = radius * np.cos(angle)
+        z = radius * np.sin(angle)
+        glVertex3f(x, 0, z)
+        glVertex3f(x, height, z)
+    glEnd()
+    
+    for y in (0, height):
+        glBegin(GL_TRIANGLE_FAN)
+        glVertex3f(0,y,0)
+        for i in range(slices + 1):
+            angle = 2 * np.pi * i/slices
+            x = radius * np.cos(angle)
+            z = radius * np.sin(angle)
+            glVertex3f(x,y,z)
+        glEnd()
+
+def draw_cone(radius, height, slices):
+    glBegin(GL_TRIANGLE_FAN)
+    glVertex3f(0, height, 0)
+    for i in range(slices + 1):
+        angle = 2 * np.pi * i / slices
+        x = radius * np.cos(angle)
+        z = radius * np.sin(angle)
+        glVertex3f(x, 0, z)
+    glEnd()
+
+    glBegin(GL_TRIANGLE_FAN)
+    glVertex3f(0, 0, 0)
+    for i in range(slices + 1):
+        angle = 2 * np.pi * i / slices
+        x = radius * np.cos(angle)
+        z = radius * np.sin(angle)
+        glVertex3f(x, 0, z)
+    glEnd()
+
+
+def draw_tower(x, y, z):
+    glPushMatrix()
+    glTranslatef(x, y, z)
+    glColor3f(0.367, 0.367, 0.367)
+    draw_cylinder(radius=1.5, height=5.0, slices=32)
+    glTranslatef(0, 5, 0)
+    glColor3f(0.6, 0.0, 0.0)
+    draw_cone(radius=1.5, height=2.0, slices=12)
+    glPopMatrix()
+
+
 def draw_scene():
+    draw_tower(-15, 0, -20)
     draw_house(-6, 0, -10, front_doors_open[0], back_doors_open[0], house_colors[0])
     draw_house(-2, 0, -10, front_doors_open[1], back_doors_open[1], house_colors[1])
     draw_house(2, 0, -10, front_doors_open[2], back_doors_open[2], house_colors[2], garage=True, garage_open=garage_open[2])
     draw_house(6, 0, -10, front_doors_open[3], back_doors_open[3], house_colors[3])
+    draw_tower(15, 0, -20)
 
 def main():
     global front_doors_open, back_doors_open, garage_open
     pygame.init()
     pygame.display.set_mode((800, 600), DOUBLEBUF | OPENGL)
+    glEnable(GL_DEPTH_TEST)
     gluPerspective(45, (800 / 600), 0.1, 50.0)
     glTranslatef(0.0, -1.0, -20)
 
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -206,6 +262,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         draw_scene()
         pygame.display.flip()
+        pygame.time.wait(30)
 
 if __name__ == "__main__":
     main()
