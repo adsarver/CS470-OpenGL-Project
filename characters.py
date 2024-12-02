@@ -71,6 +71,7 @@ def cat():
     glTranslatef(*scene_trans)
     glTranslatef(-1, 0, 2.5)
     glRotatef(1, 0, 1, 0)
+    glColor3f(1, 0.5, 0)
     for mesh in cat_scene.mesh_list:
         glBegin(GL_TRIANGLES)
         for face in mesh.faces:
@@ -93,7 +94,7 @@ def Car():
     glPushMatrix()
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
-    glColor3f(1, 0, 1)
+    glColor3f(0.78, 0.7332, 0.7332)
     for mesh in Car_scene.mesh_list:
         glBegin(GL_QUADS)
         for face in mesh.faces:
@@ -116,6 +117,7 @@ def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
+    glColor3f(0.78, 0.7332, 0.7332)
     if open_trunk:
         glRotatef(75, 0, 0, 1)
         glTranslatef(0.3, -0.7, 0)

@@ -80,7 +80,39 @@ def draw_scene(walls_texture, ground_texture, sky_texture):
     glDisable(GL_TEXTURE_2D)
     glEnable(GL_DEPTH_TEST)
 
-    
+def draw_lake():
+    glMatrixMode(GL_MODELVIEW)
+    glColor3f(0, 0.3333, 1)
+    glBegin(GL_QUADS)
+    glVertex3f(.5, -2, -2)
+    glVertex3f(2, -2, -2)
+    glVertex3f(2, -2, 2)
+    glVertex3f(.5, -2, 2)
+    glEnd()
+    glColor3f(1, 1, 1)
+
+def draw_road1():
+    glMatrixMode(GL_MODELVIEW)
+    glColor3f(0.162, 0.168, 0.18)
+    glBegin(GL_QUADS)
+    glVertex3f(-0.55, -2, -2)
+    glVertex3f(-0.55, -2, 2)
+    glVertex3f(-0.85, -2, 2)
+    glVertex3f(-0.85, -2, -2)
+    glEnd()
+    glColor3f(1, 1, 1)
+
+def draw_road2():
+    glMatrixMode(GL_MODELVIEW)
+    glColor3f(0.162, 0.168, 0.18)
+    glBegin(GL_QUADS)
+    glVertex3f(0.5, -2, 0.15)
+    glVertex3f(0.5, -2, -0.15)
+    glVertex3f(-2, -2, -0.15)
+    glVertex3f(-2, -2, 0.15)
+    glEnd()
+    glColor3f(1, 1, 1)
+
 def main():
     pygame.init()
     display = (800, 600)
@@ -98,11 +130,35 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
-
+            if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        glTranslatef(-0.5,0,0)
+                    if event.key == pygame.K_RIGHT:
+                        glTranslatef(0.5,0,0)
+                    if event.key == pygame.K_UP:
+                        glTranslatef(0,1,0)
+                    if event.key == pygame.K_DOWN:
+                        glTranslatef(0,-1,0)
+                    if event.key == pygame.K_a:
+                        glRotatef(5, 0, 1, 0)
+                    if event.key == pygame.K_d:
+                        glRotatef(5, 0, -1, 0)
+                    if event.key == pygame.K_w:
+                        glRotatef(5, 1, 0, 0)
+                    if event.key == pygame.K_s:
+                        glRotatef(5, -1, 0, 0)
+                    if event.key == pygame.K_q:
+                        glRotatef(5, 0, 0, 1)
+                    if event.key == pygame.K_e:
+                        glRotatef(5, 0, 0, -1)
+                    if event.key == pygame.K_t:
+                        open_trunk = not open_trunk
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         draw_scene(walls_texture, grass_texture, sky_texture)
-
+        draw_lake()
+        draw_road1()
+        draw_road2()
         pygame.display.flip()
         pygame.time.wait(10)
 
