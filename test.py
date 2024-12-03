@@ -226,6 +226,11 @@ def main():
         draw_tower(-15, 0, -20)
         glPopMatrix()
 
+        '''glPushMatrix()
+        glTranslatef(-1, 2, -6.5)
+        draw_bush()
+        glPopMatrix()'''
+        
         # Add characters and objects
         glPushMatrix()
         glTranslatef(4, 0.75, -7.3)
@@ -249,6 +254,30 @@ def main():
         glTranslatef(4, 0.75, -7.3)
         glScalef(0.2, 0.2, 0.2)
         Person()
+        glPopMatrix()
+        
+        # Adding Bushes to the houses
+        glPushMatrix()
+        glTranslatef(-1, 2, -6.5)
+        draw_bush() #this does something weird to the lighting
+        glPopMatrix()
+        
+        glPushMatrix()
+        glTranslatef(-5, 2, -6.5)
+        draw_bush()
+        glPopMatrix()
+        
+        glPushMatrix()
+        glTranslatef(3, 2, -6.5)
+        glColor3f(0.05, 0.4, 0.05)
+        draw_sphere(-2, -1.8, 0, 0.25)
+        draw_sphere(-0.25, -1.8, 0, 0.25)
+        glPopMatrix()
+        
+        
+        glPushMatrix()
+        glTranslatef(7, 2, -6.5)
+        draw_bush()
         glPopMatrix()
 
         pygame.display.flip()
