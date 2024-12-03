@@ -318,6 +318,13 @@ def draw_stoplight(x, y, z):
 
     glPopMatrix()
 def draw_sphere(radius, slices, stacks):
+    if radius <= 0:
+        raise ValueError("Radius must be greater than 0.")
+    if not isinstance(slices, int) or slices <= 0:
+        raise ValueError("Slices must be a positive integer.")
+    if not isinstance(stacks, int) or stacks <= 0:
+        raise ValueError("Stacks must be a positive integer.")
+
     quadric = gluNewQuadric()
     gluSphere(quadric, radius, slices, stacks)
     gluDeleteQuadric(quadric)

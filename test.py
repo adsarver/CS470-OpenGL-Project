@@ -289,10 +289,11 @@ def main():
         glPopMatrix()
         
         glPushMatrix()
-        glTranslatef(3, 2, -6.5)
-        glColor3f(0.05, 0.4, 0.05)
-        draw_sphere(-2, -1.8, 0, 0.25)
-        draw_sphere(-0.25, -1.8, 0, 0.25)
+        glTranslatef(3, 2, -6.5)  # Position the first sphere
+        glColor3f(0.05, 0.4, 0.05)  # Green color
+        draw_sphere(0.25, 20, 20)  # Sphere with radius 0.25, 20 slices, 20 stacks
+        glTranslatef(1.0, 0.0, 0.0)  # Offset for the second sphere
+        draw_sphere(0.25, 20, 20)  # Second sphere
         glPopMatrix()
         
         
