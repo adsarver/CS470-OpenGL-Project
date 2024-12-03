@@ -251,8 +251,9 @@ def main():
         glPopMatrix()
 
         glPushMatrix()
-        glTranslatef(4, 0.75, -7.3)
+        glTranslatef(4, 0.75, -6)
         glScalef(0.2, 0.2, 0.2)
+        arm()
         Person()
         glPopMatrix()
         
