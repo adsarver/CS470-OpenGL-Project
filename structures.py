@@ -269,6 +269,7 @@ def draw_street_lamp(x, y, z):
     glVertex3f(0.1, 0, -0.1)
     glVertex3f(0.1, 3, -0.1)
     glVertex3f(-0.1, 3, -0.1)
+    glColor3f(1, 1, 1)
     glEnd()
 
     # Lamp head
@@ -280,9 +281,7 @@ def draw_street_lamp(x, y, z):
 
 
 def draw_stoplight(x, y, z):
-    """
-    Draws a stoplight at the specified position (x, y, z).
-    """
+
     glPushMatrix()
     glTranslatef(x, y, z)
 
@@ -298,17 +297,18 @@ def draw_stoplight(x, y, z):
     glVertex3f(0.1, 0, -0.1)
     glVertex3f(0.1, 3, -0.1)
     glVertex3f(-0.1, 3, -0.1)
+    glColor3f(1, 1, 1)
     glEnd()
 
     # Light Box
     glTranslatef(0, 2.5, 0)
     glColor3f(0.2, 0.2, 0.2)  # Dark gray
-    draw_cube(0.5)  # Replace glutSolidCube(0.5) with draw_cube(0.5)
+    draw_cube(0.5)
 
     # Lights
     glTranslatef(0, 0, 0.3)
     glColor3f(1, 0, 0)  # Red light
-    draw_sphere(0.1, 20, 20)  # Replace glutSolidSphere with draw_sphere
+    draw_sphere(0.1, 20, 20)
     glTranslatef(0, -0.2, 0)
     glColor3f(1, 1, 0)  # Yellow light
     draw_sphere(0.1, 20, 20)
@@ -318,21 +318,12 @@ def draw_stoplight(x, y, z):
 
     glPopMatrix()
 def draw_sphere(radius, slices, stacks):
-    """
-    Draws a sphere using GLU (as a replacement for glutSolidSphere).
-    :param radius: Radius of the sphere.
-    :param slices: Number of slices (longitude divisions).
-    :param stacks: Number of stacks (latitude divisions).
-    """
     quadric = gluNewQuadric()
     gluSphere(quadric, radius, slices, stacks)
     gluDeleteQuadric(quadric)
 
 def draw_cube(size):
-    """
-    Draws a solid cube using OpenGL primitives.
-    :param size: The length of each side of the cube.
-    """
+
     half_size = size / 2.0
 
     glBegin(GL_QUADS)

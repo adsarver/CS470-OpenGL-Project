@@ -2,24 +2,49 @@ from OpenGL.GL import *
 
 def setup_street_lamp_light():
     glEnable(GL_LIGHT1)
+    glPushMatrix()
+    glLoadIdentity()  # Reset transformations
     light_position = [0.0, 3.0, 0.0, 1.0]  # Position at the lamp head
-    light_diffuse = [1.0, 1.0, 0.8, 1.0]  # Warm yellow light
-    light_ambient = [0.2, 0.2, 0.1, 1.0]
-    light_specular = [1.0, 1.0, 0.8, 1.0]
+    light_diffuse = [0.8, 0.8, 0.6, 1.0]  #  diffuse light
+    light_ambient = [0.1, 0.1, 0.05, 1.0]  #  ambient light
+    light_specular = [0.6, 0.6, 0.5, 1.0]  #specular light
 
     glLightfv(GL_LIGHT1, GL_POSITION, light_position)
     glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse)
     glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient)
     glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular)
+    glPopMatrix()
 
 def setup_stoplight_light():
     glEnable(GL_LIGHT2)
-    light_position = [0.0, 2.5, 0.3, 1.0]  # Position at the red light
-    light_diffuse = [1.0, 0.0, 0.0, 1.0]  # Bright red light for stoplight
-    light_ambient = [0.1, 0.0, 0.0, 1.0]
-    light_specular = [1.0, 0.0, 0.0, 1.0]
+    glPushMatrix()
+    glLoadIdentity()
+    light_position = [0.0, 2.5, 0.3, 1.0]
+    light_diffuse = [0.8, 0.0, 0.0, 1.0]
+    light_ambient = [0.05, 0.0, 0.0, 1.0]
+    light_specular = [0.7, 0.0, 0.0, 1.0]
 
     glLightfv(GL_LIGHT2, GL_POSITION, light_position)
     glLightfv(GL_LIGHT2, GL_DIFFUSE, light_diffuse)
     glLightfv(GL_LIGHT2, GL_AMBIENT, light_ambient)
     glLightfv(GL_LIGHT2, GL_SPECULAR, light_specular)
+    glPopMatrix()
+
+def setup_scene_lighting():
+
+    global is_daytime
+
+    glEnable(GL_LIGHTING)
+
+    # General ambient light for the scene
+    global_ambient = [0.8, 0.8, 0.8, 1.0] if is_daytime else [0.2, 0.2, 0.4, 1.0]
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient)
+
+    # Main directional light (simulating the sun or moon)
+    glEnable(GL_LIGHT0)
+    light_position = [1.0, 4.0, 4.0, 0.0]  # Directional light
+    light_diffuse = [1.0, 1.0, 1.0, 1.0] if is_daytime else [0.5, 0.5, 0.7, 1.0]
+    light_ambient = [0.3, 0.3, 0.3, 1.0] if is_daytime else [0.1, 0.1, 0.2, 1.0]
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
