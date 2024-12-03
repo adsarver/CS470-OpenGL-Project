@@ -1,4 +1,5 @@
 import pygame
+from OpenGL.raw.GLUT import glutSolidSphere, glutSolidCube
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -223,6 +224,129 @@ def draw_scene():
     draw_house(2, 0, -10, front_doors_open[2], back_doors_open[2], house_colors[2], garage=True, garage_open=garage_open[2])
     draw_house(6, 0, -10, front_doors_open[3], back_doors_open[3], house_colors[3])
     draw_tower(15, 0, -20)
+
+
+def draw_street_lamp(x, y, z):
+    glPushMatrix()
+    glTranslatef(x, y, z)
+
+    # Pole
+    glColor3f(0.5, 0.5, 0.5)  # Gray
+    glBegin(GL_QUADS)
+    glVertex3f(-0.1, 0, 0.1)
+    glVertex3f(0.1, 0, 0.1)
+    glVertex3f(0.1, 3, 0.1)
+    glVertex3f(-0.1, 3, 0.1)
+
+    glVertex3f(-0.1, 0, -0.1)
+    glVertex3f(0.1, 0, -0.1)
+    glVertex3f(0.1, 3, -0.1)
+    glVertex3f(-0.1, 3, -0.1)
+    glEnd()
+
+    # Lamp head
+    glTranslatef(0, 3, 0)
+    glColor3f(1.0, 1.0, 0.8)  # Light yellow for the lamp head
+    draw_sphere(0.3, 20, 20)
+    glPopMatrix()
+
+
+
+def draw_stoplight(x, y, z):
+    """
+    Draws a stoplight at the specified position (x, y, z).
+    """
+    glPushMatrix()
+    glTranslatef(x, y, z)
+
+    # Pole
+    glColor3f(0.5, 0.5, 0.5)  # Gray
+    glBegin(GL_QUADS)
+    glVertex3f(-0.1, 0, 0.1)
+    glVertex3f(0.1, 0, 0.1)
+    glVertex3f(0.1, 3, 0.1)
+    glVertex3f(-0.1, 3, 0.1)
+
+    glVertex3f(-0.1, 0, -0.1)
+    glVertex3f(0.1, 0, -0.1)
+    glVertex3f(0.1, 3, -0.1)
+    glVertex3f(-0.1, 3, -0.1)
+    glEnd()
+
+    # Light Box
+    glTranslatef(0, 2.5, 0)
+    glColor3f(0.2, 0.2, 0.2)  # Dark gray
+    draw_cube(0.5)  # Replace glutSolidCube(0.5) with draw_cube(0.5)
+
+    # Lights
+    glTranslatef(0, 0, 0.3)
+    glColor3f(1, 0, 0)  # Red light
+    draw_sphere(0.1, 20, 20)  # Replace glutSolidSphere with draw_sphere
+    glTranslatef(0, -0.2, 0)
+    glColor3f(1, 1, 0)  # Yellow light
+    draw_sphere(0.1, 20, 20)
+    glTranslatef(0, -0.2, 0)
+    glColor3f(0, 1, 0)  # Green light
+    draw_sphere(0.1, 20, 20)
+
+    glPopMatrix()
+def draw_sphere(radius, slices, stacks):
+    """
+    Draws a sphere using GLU (as a replacement for glutSolidSphere).
+    :param radius: Radius of the sphere.
+    :param slices: Number of slices (longitude divisions).
+    :param stacks: Number of stacks (latitude divisions).
+    """
+    quadric = gluNewQuadric()
+    gluSphere(quadric, radius, slices, stacks)
+    gluDeleteQuadric(quadric)
+
+def draw_cube(size):
+    """
+    Draws a solid cube using OpenGL primitives.
+    :param size: The length of each side of the cube.
+    """
+    half_size = size / 2.0
+
+    glBegin(GL_QUADS)
+
+    # Front face
+    glVertex3f(-half_size, -half_size, half_size)
+    glVertex3f(half_size, -half_size, half_size)
+    glVertex3f(half_size, half_size, half_size)
+    glVertex3f(-half_size, half_size, half_size)
+
+    # Back face
+    glVertex3f(-half_size, -half_size, -half_size)
+    glVertex3f(-half_size, half_size, -half_size)
+    glVertex3f(half_size, half_size, -half_size)
+    glVertex3f(half_size, -half_size, -half_size)
+
+    # Left face
+    glVertex3f(-half_size, -half_size, -half_size)
+    glVertex3f(-half_size, -half_size, half_size)
+    glVertex3f(-half_size, half_size, half_size)
+    glVertex3f(-half_size, half_size, -half_size)
+
+    # Right face
+    glVertex3f(half_size, -half_size, -half_size)
+    glVertex3f(half_size, half_size, -half_size)
+    glVertex3f(half_size, half_size, half_size)
+    glVertex3f(half_size, -half_size, half_size)
+
+    # Top face
+    glVertex3f(-half_size, half_size, -half_size)
+    glVertex3f(-half_size, half_size, half_size)
+    glVertex3f(half_size, half_size, half_size)
+    glVertex3f(half_size, half_size, -half_size)
+
+    # Bottom face
+    glVertex3f(-half_size, -half_size, -half_size)
+    glVertex3f(half_size, -half_size, -half_size)
+    glVertex3f(half_size, -half_size, half_size)
+    glVertex3f(-half_size, -half_size, half_size)
+
+    glEnd()
 
 def main():
     global front_doors_open, back_doors_open, garage_open

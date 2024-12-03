@@ -78,6 +78,8 @@ from landscape import *
 from characters import *
 from structures import *
 from lighting import *
+from structures import draw_street_lamp, draw_stoplight
+from lighting import setup_street_lamp_light, setup_stoplight_light
 
 open_trunk = False
 def Trunk():
@@ -103,9 +105,10 @@ def Trunk():
             glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
-    
+
+
 def main():
-    #variables
+    # variables
     global open_trunk
 
     pygame.init()
@@ -149,27 +152,27 @@ def main():
                 if event.key == pygame.K_LEFT:
                     glTranslatef(-0.5, 0, 0)  # Move left
                 if event.key == pygame.K_RIGHT:
-                    glTranslatef(0.5, 0, 0)   # Move right
+                    glTranslatef(0.5, 0, 0)  # Move right
                 if event.key == pygame.K_UP:
-                    glTranslatef(0, 1, 0)    # Move up
+                    glTranslatef(0, 1, 0)  # Move up
                 if event.key == pygame.K_DOWN:
-                    glTranslatef(0, -1, 0)   # Move down
+                    glTranslatef(0, -1, 0)  # Move down
                 if event.key == pygame.K_i:
-                    glTranslatef(0, 0, 1)    # Move forward
+                    glTranslatef(0, 0, 1)  # Move forward
                 if event.key == pygame.K_k:
-                    glTranslatef(0, 0, -1)   # Move backward
+                    glTranslatef(0, 0, -1)  # Move backward
                 if event.key == pygame.K_a:
-                    glRotatef(5, 1, 0, 0)    # Rotate around X-axis positive
+                    glRotatef(5, 1, 0, 0)  # Rotate around X-axis positive
                 if event.key == pygame.K_d:
-                    glRotatef(5, -1, 0, 0)   # Rotate around X-axis negative
+                    glRotatef(5, -1, 0, 0)  # Rotate around X-axis negative
                 if event.key == pygame.K_w:
-                    glRotatef(5, 0, 1, 0)    # Rotate around Y-axis positive
+                    glRotatef(5, 0, 1, 0)  # Rotate around Y-axis positive
                 if event.key == pygame.K_s:
-                    glRotatef(5, 0, -1, 0)   # Rotate around Y-axis negative
+                    glRotatef(5, 0, -1, 0)  # Rotate around Y-axis negative
                 if event.key == pygame.K_q:
-                    glRotatef(5, 0, 0, 1)    # Rotate around Z-axis positive
+                    glRotatef(5, 0, 0, 1)  # Rotate around Z-axis positive
                 if event.key == pygame.K_e:
-                    glRotatef(5, 0, 0, -1)   # Rotate around Z-axis negative
+                    glRotatef(5, 0, 0, -1)  # Rotate around Z-axis negative
                 if event.key == pygame.K_t:
                     open_trunk = not open_trunk
 
@@ -177,9 +180,9 @@ def main():
         glPushMatrix()
         glTranslatef(0, 8, -8)
         glRotatef(90, 0, 1, 0)
-        landscape.draw_scene(walls_texture, grass_texture, sky_texture) # Landscape
+        landscape.draw_scene(walls_texture, grass_texture, sky_texture)  # Landscape
         glPopMatrix()
-        #structures.draw_scene()
+        # structures.draw_scene()
 
         glPushMatrix()
         glTranslatef(0, 8, -8)
@@ -194,7 +197,7 @@ def main():
         glScalef(4, 4, 4)
         draw_road1()
         glPopMatrix()
-        
+
         glPushMatrix()
         glTranslatef(0, 8, -8)
         glRotatef(-90, 0, 1, 0)
@@ -202,20 +205,37 @@ def main():
         draw_road2()
         glPopMatrix()
 
+        glPushMatrix()
+        glTranslatef(-4, 0, -7)  # Position next to the street
+        glScalef(0.5, 0.5, 0.5)  # Scale the streetlamp
+        draw_street_lamp(0, 0, 0)
+        setup_street_lamp_light()
+        glPopMatrix()
+
+        # Add the stoplight
+        glPushMatrix()
+        glTranslatef(0, 0, -7)  # Position on the street
+        glScalef(0.5, 0.5, 0.5)  # Scale the stoplight
+        draw_stoplight(0, 0, 0)
+        setup_stoplight_light()
+        glPopMatrix()
+
+
         # Add structures
-        #draw_house(-5, 0, -15, False, False, (0.8, 0.7, 0.6), garage=True, garage_open=True)
-        #draw_house(5, 0, -15, False, False, (0.9, 0.6, 0.6))
-        #draw_tower(-10, 0, -20)
-        #draw_tower(10, 0, -20)
-        
+        # draw_house(-5, 0, -15, False, False, (0.8, 0.7, 0.6), garage=True, garage_open=True)
+        # draw_house(5, 0, -15, False, False, (0.9, 0.6, 0.6))
+        # draw_tower(-10, 0, -20)
+        # draw_tower(10, 0, -20)
+
         glPushMatrix()
         glTranslatef(0, 0, 2)
         draw_house(-6, 0, -10, front_doors_open[0], back_doors_open[0], house_colors[0])
         draw_house(-2, 0, -10, front_doors_open[1], back_doors_open[1], house_colors[1])
-        draw_house(2, 0, -10, front_doors_open[2], back_doors_open[2], house_colors[2], garage=True, garage_open=garage_open[2])
+        draw_house(2, 0, -10, front_doors_open[2], back_doors_open[2], house_colors[2], garage=True,
+                   garage_open=garage_open[2])
         draw_house(6, 0, -10, front_doors_open[3], back_doors_open[3], house_colors[3])
         glPopMatrix()
-        
+
         glPushMatrix()
         glTranslatef(-9, 0, 6.5)
         draw_tower(15, 0, -20)
@@ -254,7 +274,6 @@ def main():
         pygame.display.flip()
         pygame.time.wait(10)
 
-       
 
 if __name__ == "__main__":
     main()
