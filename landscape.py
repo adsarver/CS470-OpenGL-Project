@@ -128,6 +128,8 @@ def draw_bush():
     draw_sphere(-2, -1.8, 0, 0.25)
     glPopMatrix()
     glColor3f(1.0, 1.0, 1.0)
+
+
     
 
 def main():

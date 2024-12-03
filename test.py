@@ -80,7 +80,7 @@ from structures import *
 from lighting import *
 from structures import draw_street_lamp, draw_stoplight
 from lighting import setup_street_lamp_light, setup_stoplight_light
-
+is_daytime = True  # Start the scene in daytime
 open_trunk = False
 def Trunk():
     glPushMatrix()
@@ -110,7 +110,7 @@ def Trunk():
 def main():
     # variables
     global open_trunk
-
+    global is_daytime
     pygame.init()
     display = (1080, 720)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -120,6 +120,7 @@ def main():
 
     # Set background color
     glClearColor(1.0, 0.7, 1.0, 1.0)
+
 
     # Lighting setup
     glEnable(GL_LIGHTING)
@@ -146,6 +147,7 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
 
             # Camera movement
             if event.type == pygame.KEYDOWN:
@@ -175,8 +177,12 @@ def main():
                     glRotatef(5, 0, 0, -1)  # Rotate around Z-axis negative
                 if event.key == pygame.K_t:
                     open_trunk = not open_trunk
+                if event.key == pygame.K_n:
+                    is_daytime = not is_daytime
+                    setup_scene_lighting(is_daytime)  # Update lighting based on day/night
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        setup_scene_lighting(is_daytime)
         glPushMatrix()
         glTranslatef(0, 8, -8)
         glRotatef(90, 0, 1, 0)

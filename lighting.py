@@ -30,21 +30,21 @@ def setup_stoplight_light():
     glLightfv(GL_LIGHT2, GL_SPECULAR, light_specular)
     glPopMatrix()
 
-def setup_scene_lighting():
-
-    global is_daytime
-
+def setup_scene_lighting(is_daytime):
     glEnable(GL_LIGHTING)
 
-    # General ambient light for the scene
+    # Global ambient lighting
     global_ambient = [0.8, 0.8, 0.8, 1.0] if is_daytime else [0.2, 0.2, 0.4, 1.0]
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient)
 
-    # Main directional light (simulating the sun or moon)
+    # Light 0 for main lighting
     glEnable(GL_LIGHT0)
-    light_position = [1.0, 4.0, 4.0, 0.0]  # Directional light
-    light_diffuse = [1.0, 1.0, 1.0, 1.0] if is_daytime else [0.5, 0.5, 0.7, 1.0]
-    light_ambient = [0.3, 0.3, 0.3, 1.0] if is_daytime else [0.1, 0.1, 0.2, 1.0]
+    light_position = [10, 10, 10, 1]
+    light_diffuse = [1.0, 1.0, 1.0, 1.0] if is_daytime else [0.4, 0.4, 0.5, 1.0]
+    light_ambient = [0.2, 0.2, 0.2, 1.0] if is_daytime else [0.1, 0.1, 0.2, 1.0]
+    light_specular = [1.0, 1.0, 1.0, 1.0]
+
     glLightfv(GL_LIGHT0, GL_POSITION, light_position)
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient)
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular)
