@@ -117,7 +117,7 @@ def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
-    glColor3f(0.78, 0.7332, 0.7332)
+    glColor3f(0.58, 0.5332, 0.5332)
     if open_trunk:
         glRotatef(75, 0, 0, 1)
         glTranslatef(0.3, -0.7, 0)
@@ -220,7 +220,7 @@ def trunk():
     glVertex3f(1, 2, -2.5)
     glEnd()'''
 
-def main():
+'''def main():
         global open_trunk
         pygame.init()
         display = (1080, 720)
@@ -273,4 +273,4 @@ def main():
             pygame.display.flip()
             pygame.time.wait(10)
 
-main()
+main()'''

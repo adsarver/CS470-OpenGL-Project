@@ -258,7 +258,30 @@ def main():
                     front_doors_open[3] = not front_doors_open[3]
                 elif event.key == K_9:
                     back_doors_open[3] = not back_doors_open[3]
-                    
+                if event.key == pygame.K_LEFT:
+                    glTranslatef(-0.5,0,0)
+                if event.key == pygame.K_RIGHT:
+                    glTranslatef(0.5,0,0)
+                if event.key == pygame.K_UP:
+                    glTranslatef(0,1,0)
+                if event.key == pygame.K_DOWN:
+                    glTranslatef(0,-1,0)
+                if event.key == pygame.K_i:
+                    glTranslatef(0, 0 , 1)
+                if event.key == pygame.K_k:
+                    glTranslatef(0, 0 , -1)
+                if event.key == pygame.K_a:
+                    glRotatef(5, 1, 0, 0)
+                if event.key == pygame.K_d:
+                    glRotatef(5, -1, 0, 0)
+                if event.key == pygame.K_w:
+                    glRotatef(5, 0, 1, 0)
+                if event.key == pygame.K_s:
+                    glRotatef(5, 0, -1, 0)
+                if event.key == pygame.K_q:
+                    glRotatef(5, 0, 0, 1)
+                if event.key == pygame.K_e:
+                    glRotatef(5, 0, 0, -1)    
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         draw_scene()
         pygame.display.flip()

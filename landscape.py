@@ -3,7 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-scale = 2.0 
+scale = 8
 
 scene_vertices = {
     "walls": [
