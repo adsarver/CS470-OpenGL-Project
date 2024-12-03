@@ -112,6 +112,23 @@ def draw_road2():
     glVertex3f(-2, -2, 0.15)
     glEnd()
     glColor3f(1, 1, 1)
+    
+def draw_sphere(x, y, z, radius):
+    glPushMatrix()
+    glTranslatef(x, y, z)
+    quad = gluNewQuadric()
+    gluSphere(quad, radius, 16, 16)
+    glPopMatrix()
+    
+    
+def draw_bush():
+    glPushMatrix()
+    glColor3f(0.05, 0.4, 0.05)
+    draw_sphere(0, -1.8, 0, 0.25)
+    draw_sphere(-2, -1.8, 0, 0.25)
+    glPopMatrix()
+    glColor3f(1.0, 1.0, 1.0)
+    
 
 def main():
     pygame.init()
@@ -159,6 +176,7 @@ def main():
         draw_lake()
         draw_road1()
         draw_road2()
+        #draw_bush()
         pygame.display.flip()
         pygame.time.wait(10)
 
