@@ -16,37 +16,66 @@ house_colors = [
 ]
 
 def draw_furniture():
-    glColor3f(0.5, 0.3, 0.1) 
+    glColor3f(1, 1, 1)  
     glPushMatrix()
-    glTranslatef(0, -0.5, -1.5) 
+    glTranslatef(0, 0, -0.5)
+
     glBegin(GL_QUADS)
-    glVertex3f(-0.4, 0, -0.6)
-    glVertex3f(0.4, 0, -0.6)
-    glVertex3f(0.4, 0, -0.8)
-    glVertex3f(-0.4, 0, -0.8)
+    glVertex3f(-0.4, 0.3, 0)
+    glVertex3f(0.4, 0.3, 0)
+    glVertex3f(0.4, 0.3, -0.2)
+    glVertex3f(-0.4, 0.3, -0.2)
+    
+    glColor3f(1, 1, 1)
+    glVertex3f(-0.4, 0, 0)
+    glVertex3f(-0.4, 0.3, 0)
+    glVertex3f(-0.3, 0.3, 0)
+    glVertex3f(-0.3, 0, 0)
+
+    glVertex3f(0.3, 0, 0)
+    glVertex3f(0.3, 0.3, 0)
+    glVertex3f(0.4, 0.3, 0)
+    glVertex3f(0.4, 0, 0)
+
+    glVertex3f(-0.4, 0, -0.2)
+    glVertex3f(-0.4, 0.3, -0.2)
+    glVertex3f(-0.3, 0.3, -0.2)
+    glVertex3f(-0.3, 0, -0.2)
+
+    glVertex3f(0.3, 0, -0.2)
+    glVertex3f(0.3, 0.3, -0.2)
+    glVertex3f(0.4, 0.3, -0.2)
+    glVertex3f(0.4, 0, -0.2)
     glEnd()
+
     glPopMatrix()
 
-def draw_window_cutout(x, y):
-    glPushMatrix()
-    glColor3f(0, 0, 0)  
-    glTranslatef(x, y, 1.01)  
-    glBegin(GL_QUADS)
-    glVertex3f(-0.3, -0.3, 0.0)
-    glVertex3f(0.3, -0.3, 0.0)
-    glVertex3f(0.3, 0.3, 0.0)
-    glVertex3f(-0.3, 0.3, 0.0)
-    glEnd()
-    glPopMatrix()
 
 def draw_front_wall(color):
     glColor3f(*color)
     glBegin(GL_QUADS)
+
     glVertex3f(-1, 0, 1)
     glVertex3f(1, 0, 1)
+    glVertex3f(1, 0.3, 1)
+    glVertex3f(-1, 0.3, 1)
+
+    glVertex3f(-1, 0.3, 1)
+    glVertex3f(-0.6, 0.3, 1)
+    glVertex3f(-0.6, 0.7, 1)
+    glVertex3f(-1, 0.7, 1)
+
+    glVertex3f(-0.3, 0.3, 1)
+    glVertex3f(0.6, 0.3, 1)
+    glVertex3f(0.6, 0.7, 1)
+    glVertex3f(-0.3, 0.7, 1)
+
+    glVertex3f(-1, 0.7, 1)
+    glVertex3f(1, 0.7, 1)
     glVertex3f(1, 1, 1)
     glVertex3f(-1, 1, 1)
     glEnd()
+
 
 def draw_back_wall(color):
     glColor3f(*color)
@@ -154,8 +183,6 @@ def draw_house(x, y, z, front_door_open, back_door_open, color, garage=False, ga
     draw_side_wall(color, left=True)
     draw_side_wall(color, left=False)
     draw_roof()
-    draw_window_cutout(-0.6, 0.6)  
-    draw_window_cutout(0.6, 0.6)   
     draw_furniture()
     draw_front_door(front_door_open)
     draw_back_door(back_door_open)
