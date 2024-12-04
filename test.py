@@ -82,6 +82,8 @@ from structures import draw_street_lamp, draw_stoplight
 from lighting import setup_street_lamp_light, setup_stoplight_light
 is_daytime = True  # Start the scene in daytime
 open_trunk = False
+person_rotate = False
+arm_wave = False
 def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
@@ -105,12 +107,57 @@ def Trunk():
             glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
+def Person():
+    glPushMatrix()
+    glScalef(*scene_scale)
+    glTranslatef(*scene_trans)
+    glColor3f(1.000, 0.627, 0.478)
+    if person_rotate:
+        glTranslatef(-1.85, 0, 0)
+        for mesh in person_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*person_scene.vertices[vertex_i])
+            glEnd()
+    else:
+        for mesh in person_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*person_scene.vertices[vertex_i])
+            glEnd()
+    glColor3f(1, 1, 1)
+    glPopMatrix()
+def arm():
+    glPushMatrix()
+    glScalef(*scene_scale)
+    glTranslatef(*scene_trans)
+    glColor3f(1.000, 0.627, 0.478)
+    if person_rotate:
+        glTranslatef(-1.85, 0, 0)
+        for mesh in arm_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*arm_scene.vertices[vertex_i])
+            glEnd()
+    else: 
+        for mesh in arm_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*arm_scene.vertices[vertex_i])
+            glEnd()
 
-
+    glColor3f(1, 1, 1)
+    glPopMatrix()
 def main():
     # variables
+    global person_rotate
     global open_trunk
     global is_daytime
+    global arm_wave
     pygame.init()
     display = (1080, 720)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -123,12 +170,12 @@ def main():
 
 
     # Lighting setup
-    glEnable(GL_LIGHTING)
+    '''glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glLightfv(GL_LIGHT0, GL_POSITION, [10, 10, 10, 1])
     glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.0, 1.0, 1.0, 1.0])
     glLightfv(GL_LIGHT0, GL_AMBIENT, [0.2, 0.2, 0.2, 1.0])
-    glLightfv(GL_LIGHT0, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
+    glLightfv(GL_LIGHT0, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])'''
 
     # Material properties
     glEnable(GL_COLOR_MATERIAL)
@@ -180,9 +227,12 @@ def main():
                 if event.key == pygame.K_n:
                     is_daytime = not is_daytime
                     setup_scene_lighting(is_daytime)  # Update lighting based on day/night
-
+                if event.key == pygame.K_r:
+                    person_rotate = not person_rotate
+                if event.key == pygame.K_v:
+                    arm_wave = not arm_wave
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        setup_scene_lighting(is_daytime)
+        #setup_scene_lighting(is_daytime)
         glPushMatrix()
         glTranslatef(0, 8, -8)
         glRotatef(90, 0, 1, 0)
@@ -265,6 +315,12 @@ def main():
         glPopMatrix()
 
         glPushMatrix()
+        glTranslatef(-3.5, 0.75, -10)
+        glScalef(0.2, 0.2, 0.2)
+        tree()
+        glPopMatrix()
+
+        glPushMatrix()
         glTranslatef(4, 0.75, -7.3)
         glScalef(0.2, 0.2, 0.2)
         Trunk()
@@ -277,7 +333,7 @@ def main():
         glPopMatrix()
 
         glPushMatrix()
-        glTranslatef(4, 0.75, -6)
+        glTranslatef(4, 0.75, -10.2)
         glScalef(0.2, 0.2, 0.2)
         arm()
         Person()

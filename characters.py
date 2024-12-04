@@ -5,6 +5,7 @@ from OpenGL.GLU import *
 import pywavefront
 
 open_trunk = False
+person_rotate = False
 person_scene = pywavefront.Wavefront('PyWaveObjs\\Person.obj', collect_faces=True)
 
 person_scene_box = (person_scene.vertices[0], person_scene.vertices[0])
@@ -24,12 +25,21 @@ def Person():
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
     glColor3f(1.000, 0.627, 0.478)
-    for mesh in person_scene.mesh_list:
-        glBegin(GL_QUADS)
-        for face in mesh.faces:
-            for vertex_i in face:
-                glVertex3f(*person_scene.vertices[vertex_i])
-        glEnd()
+    if person_rotate:
+        glRotatef(45, 1, 0, 0)
+        for mesh in person_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*person_scene.vertices[vertex_i])
+            glEnd()
+    else:
+        for mesh in person_scene.mesh_list:
+            glBegin(GL_QUADS)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*person_scene.vertices[vertex_i])
+            glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
 
@@ -47,12 +57,21 @@ def arm():
     glScalef(*scene_scale)
     glTranslatef(*scene_trans)
     glColor3f(1.000, 0.627, 0.478)
-    for mesh in arm_scene.mesh_list:
-        glBegin(GL_TRIANGLES)
-        for face in mesh.faces:
-            for vertex_i in face:
-                glVertex3f(*arm_scene.vertices[vertex_i])
-        glEnd()
+    if person_rotate:
+        glRotatef(45, 1, 0, 0)
+        for mesh in arm_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*arm_scene.vertices[vertex_i])
+            glEnd()
+    else: 
+        for mesh in arm_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*arm_scene.vertices[vertex_i])
+            glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
 
@@ -72,6 +91,7 @@ def cat():
     glTranslatef(-1, 0, 2.5)
     glRotatef(1, 0, 1, 0)
     glColor3f(1, 0.5, 0)
+    
     for mesh in cat_scene.mesh_list:
         glBegin(GL_TRIANGLES)
         for face in mesh.faces:
@@ -80,7 +100,31 @@ def cat():
         glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
+tree_scene = pywavefront.Wavefront('PyWaveObjs\\tree.obj', collect_faces=True)
 
+tree_scene_box = (tree_scene.vertices[0], tree_scene.vertices[0])
+for vertex in tree_scene.vertices:
+    min_v = [min(tree_scene_box[0][i], vertex[i]) for i in range(3)]
+    max_v = [max(tree_scene_box[1][i], vertex[i]) for i in range(3)]
+    tree_scene_box = (min_v, max_v)
+
+
+def tree():
+    glPushMatrix()
+    glScalef(*scene_scale)
+    glTranslatef(*scene_trans)
+    glTranslatef(-1, 0, 2.5)
+    glRotatef(1, 0, 1, 0)
+    glColor3f(0.2011, 0.65, 0.169)
+    
+    for mesh in tree_scene.mesh_list:
+        glBegin(GL_TRIANGLES)
+        for face in mesh.faces:
+            for vertex_i in face:
+                glVertex3f(*tree_scene.vertices[vertex_i])
+        glEnd()
+    glColor3f(1, 1, 1)
+    glPopMatrix()
 Car_scene = pywavefront.Wavefront('PyWaveObjs\\Car.obj', collect_faces=True)
 
 Car_scene_box = (Car_scene.vertices[0], Car_scene.vertices[0])
