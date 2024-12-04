@@ -1,73 +1,3 @@
-'''import pygame
-from pygame.locals import *
-from OpenGL.GL import *
-from OpenGL.GLU import *
-from camera import *
-from landscape import *
-from lighting import *
-from structures import *
-from characters import *
-import landscape
-import structures
-
-
-def main():
-    global open_trunk
-
-    pygame.init()
-    display = (1080, 720)
-    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-    gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
-    glTranslatef(0.0, 0.0, -5)
-
-    sky_texture = load_texture("Textures/clouds.jpg")
-    walls_texture = load_texture("Textures/snowymountains.jpg")
-    grass_texture = load_texture("Textures/grasstexture.jpg")
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        glTranslatef(-0.5,0,0)
-                    if event.key == pygame.K_RIGHT:
-                        glTranslatef(0.5,0,0)
-                    if event.key == pygame.K_UP:
-                        glTranslatef(0,1,0)
-                    if event.key == pygame.K_DOWN:
-                        glTranslatef(0,-1,0)
-                    if event.key == pygame.K_i:
-                        glTranslatef(0, 0 , 1)
-                    if event.key == pygame.K_k:
-                        glTranslatef(0, 0 , -1)
-                    if event.key == pygame.K_a:
-                        glRotatef(5, 1, 0, 0)
-                    if event.key == pygame.K_d:
-                        glRotatef(5, -1, 0, 0)
-                    if event.key == pygame.K_w:
-                        glRotatef(5, 0, 1, 0)
-                    if event.key == pygame.K_s:
-                        glRotatef(5, 0, -1, 0)
-                    if event.key == pygame.K_q:
-                        glRotatef(5, 0, 0, 1)
-                    if event.key == pygame.K_e:
-                        glRotatef(5, 0, 0, -1)
-                    if event.key == pygame.K_t:
-                        open_trunk = not open_trunk
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        landscape.draw_scene(walls_texture, grass_texture, sky_texture)
-        draw_lake()
-        draw_road1()
-        draw_road2()
-        Car()
-        Trunk()
-        #structures.draw_scene()
-        pygame.display.flip()
-        pygame.time.wait(10)
-
-main()'''
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
@@ -83,7 +13,7 @@ from lighting import setup_street_lamp_light, setup_stoplight_light
 is_daytime = True  # Start the scene in daytime
 open_trunk = False
 person_rotate = False
-arm_wave = False
+
 def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
@@ -157,7 +87,6 @@ def main():
     global person_rotate
     global open_trunk
     global is_daytime
-    global arm_wave
     pygame.init()
     display = (1080, 720)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -245,6 +174,9 @@ def main():
                 if event.key == pygame.K_n:
                     is_daytime = not is_daytime
                     setup_scene_lighting(is_daytime)  # Update lighting based on day/night
+                if event.key == pygame.K_r:
+                    person_rotate = not person_rotate
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         #setup_scene_lighting(is_daytime)
         glPushMatrix()
