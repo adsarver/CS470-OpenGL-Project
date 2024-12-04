@@ -6,6 +6,7 @@ import pywavefront
 
 open_trunk = False
 person_rotate = False
+cat_move = False
 person_scene = pywavefront.Wavefront('PyWaveObjs\\Person.obj', collect_faces=True)
 
 person_scene_box = (person_scene.vertices[0], person_scene.vertices[0])
@@ -91,13 +92,21 @@ def cat():
     glTranslatef(-1, 0, 2.5)
     glRotatef(1, 0, 1, 0)
     glColor3f(1, 0.5, 0)
-    
-    for mesh in cat_scene.mesh_list:
-        glBegin(GL_TRIANGLES)
-        for face in mesh.faces:
-            for vertex_i in face:
-                glVertex3f(*cat_scene.vertices[vertex_i])
-        glEnd()
+    if cat_move:
+        glTranslate(1.85, 0, 0)
+        for mesh in cat_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*cat_scene.vertices[vertex_i])
+            glEnd()
+    else: 
+        for mesh in cat_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*cat_scene.vertices[vertex_i])
+            glEnd()
     glColor3f(1, 1, 1)
     glPopMatrix()
 tree_scene = pywavefront.Wavefront('PyWaveObjs\\tree.obj', collect_faces=True)

@@ -13,7 +13,7 @@ from lighting import setup_street_lamp_light, setup_stoplight_light
 is_daytime = True  # Start the scene in daytime
 open_trunk = False
 person_rotate = False
-
+cat_move = False
 def Trunk():
     glPushMatrix()
     glScalef(*scene_scale)
@@ -82,11 +82,38 @@ def arm():
 
     glColor3f(1, 1, 1)
     glPopMatrix()
+def cat():
+    glPushMatrix()
+    glScalef(*scene_scale)
+    glTranslatef(*scene_trans)
+    glTranslatef(-1, 0, 2.5)
+    glRotatef(1, 0, 1, 0)
+    glColor3f(1, 0.5, 0)
+    if cat_move:
+        glTranslate(0, 0, -2)
+        for mesh in cat_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*cat_scene.vertices[vertex_i])
+            glEnd()
+    else: 
+        for mesh in cat_scene.mesh_list:
+            glBegin(GL_TRIANGLES)
+            for face in mesh.faces:
+                for vertex_i in face:
+                    glVertex3f(*cat_scene.vertices[vertex_i])
+            glEnd()
+    glColor3f(1, 1, 1)
+    glPopMatrix()
+
 def main():
     # variables
     global person_rotate
     global open_trunk
     global is_daytime
+    global cat_move
+    
     pygame.init()
     display = (1080, 720)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -176,6 +203,8 @@ def main():
                     setup_scene_lighting(is_daytime)  # Update lighting based on day/night
                 if event.key == pygame.K_r:
                     person_rotate = not person_rotate
+                if event.key == pygame.K_m:
+                    cat_move = not cat_move
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         #setup_scene_lighting(is_daytime)
@@ -273,7 +302,7 @@ def main():
         glPopMatrix()
 
         glPushMatrix()
-        glTranslatef(4, 0.75, -7.3)
+        glTranslatef(0, 0.75, -7.3)
         glScalef(0.2, 0.2, 0.2)
         cat()
         glPopMatrix()
