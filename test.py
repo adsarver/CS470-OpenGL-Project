@@ -224,13 +224,27 @@ def main():
                     glRotatef(5, 0, 0, -1)  # Rotate around Z-axis negative
                 if event.key == pygame.K_t:
                     open_trunk = not open_trunk
+                if event.key == K_1:
+                    front_doors_open[0] = not front_doors_open[0]
+                if event.key == K_2:
+                    back_doors_open[0] = not back_doors_open[0]
+                if event.key == K_3:
+                    front_doors_open[1] = not front_doors_open[1]
+                if event.key == K_4:
+                    back_doors_open[1] = not back_doors_open[1]
+                if event.key == K_5:
+                    front_doors_open[2] = not front_doors_open[2]
+                if event.key == K_6:
+                    back_doors_open[2] = not back_doors_open[2]
+                if event.key == K_7:
+                    garage_open[2] = not garage_open[2]
+                if event.key == K_8:
+                    front_doors_open[3] = not front_doors_open[3]
+                if event.key == K_9:
+                    back_doors_open[3] = not back_doors_open[3]
                 if event.key == pygame.K_n:
                     is_daytime = not is_daytime
                     setup_scene_lighting(is_daytime)  # Update lighting based on day/night
-                if event.key == pygame.K_r:
-                    person_rotate = not person_rotate
-                if event.key == pygame.K_v:
-                    arm_wave = not arm_wave
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         #setup_scene_lighting(is_daytime)
         glPushMatrix()
